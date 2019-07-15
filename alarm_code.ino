@@ -21,7 +21,9 @@ const int RECV_PIN = 4;
 IRrecv irrecv(RECV_PIN);
 decode_results results;
 
+//LED pins
 const int bluePin = 6;
+const int greenPin = 7;
 
 int togglestate = 0;
 
@@ -35,11 +37,18 @@ void setup() {
   irrecv.enableIRIn();
   //Set LED pins as outputs
   pinMode(bluePin, OUTPUT);
+  pinMode(greenPin, OUTPUT);
 }
 
 void loop() {
   if (togglestate == 1){
     get_distance();
+    if (abs(get_distance() - target_d) <= 2){
+      digitalWrite(greenPin, HIGH);
+    }
+    else {
+      digitalWrite(greenPin, LOW);
+    }
     if (irrecv.decode(&results)){
       if (results.value == 0xFF6897){
         alarm_toggle = 1;
@@ -47,7 +56,7 @@ void loop() {
       }
     }
     if (alarm_toggle == 1){
-      if (abs(get_distance() - target_d) > 1){
+      if (abs(get_distance() - target_d) > 2){
         Serial.println("BEEP BEEP!");
       }
     }
@@ -89,8 +98,8 @@ int get_distance(){
   //calculate the distance
   cm = ms_to_cm(duration);
  
-  Serial.print("Distance: ");
-  Serial.println(cm);
+  //Serial.print("Distance: ");
+  //Serial.println(cm);
 
   return cm;
 }
