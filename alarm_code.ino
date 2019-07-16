@@ -25,6 +25,9 @@ decode_results results;
 const int bluePin = 6;
 const int greenPin = 7;
 
+//Buzzer pin
+const int buzzPin = 2;
+
 int togglestate = 0;
 
 void setup() {
@@ -38,6 +41,8 @@ void setup() {
   //Set LED pins as outputs
   pinMode(bluePin, OUTPUT);
   pinMode(greenPin, OUTPUT);
+  //Set buzzer pin as output
+  pinMode(buzzPin, OUTPUT);
 }
 
 void loop() {
@@ -57,6 +62,8 @@ void loop() {
     }
     if (alarm_toggle == 1){
       if (abs(get_distance() - target_d) > 2){
+        tone(buzzPin, 261, 500);
+        delay(1000);
         Serial.println("BEEP BEEP!");
       }
     }
