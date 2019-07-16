@@ -62,9 +62,9 @@ void loop() {
     }
     if (alarm_toggle == 1){
       if (abs(get_distance() - target_d) > 2){
-        tone(buzzPin, 261, 500);
-        delay(1000);
-        Serial.println("BEEP BEEP!");
+        tone(buzzPin, 5000, 500);
+        delay(750);
+        //Serial.println("BEEP BEEP!");
       }
     }
    }
@@ -78,6 +78,8 @@ void loop() {
       else {
         digitalWrite(bluePin, LOW);
         togglestate = 0;
+        alarm_toggle = 0;     //Reset alarm
+        digitalWrite(greenPin, LOW); //Reset green LED
       }
     }
     irrecv.resume(); 
